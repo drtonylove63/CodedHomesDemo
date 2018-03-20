@@ -16,7 +16,7 @@ namespace CodedHomes.Data.Configuration
             this.Property(p => p.City)
                 .IsRequired().HasMaxLength(50);
 
-            this.Property(p => p.Zipcode)
+            this.Property(p => p.ZipCode)
                 .IsRequired();
 
             this.Property(p => p.ImageName)

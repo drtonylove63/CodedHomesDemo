@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using CodedHomes.Web.Filters;
 
 namespace CodedHomes.Web
 {
@@ -7,6 +8,7 @@ namespace CodedHomes.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            filters.Add(new ElmahFilter());
             filters.Add(new HandleErrorAttribute());
         }
     }

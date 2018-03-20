@@ -6,22 +6,34 @@ using System.Linq;
 
 namespace CodedHomes.Data
 {
-    public class GenericRepository<T> : IRepository<T>
-        where T : class
+    public class GenericRepository<T> : IRepository<T> where T : class
     {
-        protected DbSet<T> DBSet { get; set; }
+        protected DbSet<T> DBSet {get;set;}
         protected DbContext Context { get; set; }
 
         public GenericRepository(DbContext context)
         {
             if (context == null)
             {
-                throw new ArgumentException("An instance of DbContext is required to use this repository.", "context");
+                throw new ArgumentException("An instance of DbContext is " +
+                    "required to use this repository.", "context");
             }
+
             this.Context = context;
             this.DBSet = this.Context.Set<T>();
         }
-        public void Add(T entity)
+
+        public virtual IQueryable<T> GetAll()
+        {
+            return this.DBSet;
+        }
+
+        public virtual T GetById(int id)
+        {
+            return this.DBSet.Find(id);
+        }
+
+        public virtual void Add(T entity)
         {
             DbEntityEntry entry = this.Context.Entry(entity);
             if (entry.State != EntityState.Detached)
@@ -34,17 +46,26 @@ namespace CodedHomes.Data
             }
         }
 
-        public void Delete(int id)
+        public virtual void Update(T entity)
         {
-            var entity = this.GetById(id);
+            DbEntityEntry entry = this.Context.Entry(entity);
 
-            if (entity != null)
+            if (entry.State == EntityState.Detached)
             {
-                this.Delete(entity);
+                this.DBSet.Attach(entity);
             }
+
+            entry.State = EntityState.Modified;
         }
 
-        public void Delete(T entity)
+        public virtual void Detach(T entity)
+        {
+            DbEntityEntry entry = this.Context.Entry(entity);
+
+            entry.State = EntityState.Detached;
+        }
+
+        public virtual void Delete(T entity)
         {
             DbEntityEntry entry = this.Context.Entry(entity);
 
@@ -59,32 +80,14 @@ namespace CodedHomes.Data
             }
         }
 
-        public void Detach(T entity)
+        public virtual void Delete(int id)
         {
-            DbEntityEntry entry = this.Context.Entry(entity);
+            var entity = this.GetById(id);
 
-            entry.State = EntityState.Detached;
-        }
-
-        public IQueryable<T> GetAll()
-        {
-            return this.DBSet;
-        }
-
-        public T GetById(int id)
-        {
-            return this.DBSet.Find(id);
-        }
-
-        public void Update(T entity)
-        {
-            DbEntityEntry entry = this.Context.Entry(entity);
-            if (entry.State != EntityState.Detached)
+            if (entity != null)
             {
-                this.DBSet.Attach(entity);
+                this.Delete(entity);
             }
-
-            entry.State = EntityState.Modified;
         }
     }
 }

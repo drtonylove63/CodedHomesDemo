@@ -1,31 +1,68 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    ViewBag.IncludeManifest = true;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@section styles {
+    <style>
+        .jumbotron {
+            margin: 80px 0;
+            text-align: center;
+        }
+        .jumbotron h1 {
+            font-size: 7em;
+            line-height: 1;
+        }
+        .jumbotron .lead {
+            font-size: 24px;
+            line-height: 1.25;
+        }
+        .jumbotron .btn {
+            font-size: 21px;
+            padding: 14px 24px;
+        }
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        header img[alt="CodedHomes"] {
+            display:none;
+        }
+    </style>
+}
+
+@section scripts {
+<script>
+    $(function() {
+
+        var
+            showOnlineLayout = function() {
+                $('.offline').fadeOut(function() {
+                    $('.online').fadeIn();
+                });
+            },
+
+            showOfflineLayout = function() {
+                $('.online').fadeOut(function() {
+                    $('.offline').fadeIn();
+                });
+            };
+
+        var offlineUtility = new OfflineUtility(showOnlineLayout, showOfflineLayout);
+    });
+
+</script>    
+}
+
+<div class="container">
+    <div class="jumbotron">
+        <div><img src="~/img/coded-homes-logo-large.png"</div>
+        <p class="lead">The leader in imaginary California homes.</p>
+
+        <div class="online deferred">
+            <a class="btn btn-large" href="/homes">View Our Homes</a>
+            <a class="btn btn-large" href="/homes/new">Add a New Home</a>
+        </div>
+
+        <div class="offline deferred">
+            <a class="btn btn-large" href="/homes/offline">Add a New Home</a>
+        </div>
     </div>
 </div>

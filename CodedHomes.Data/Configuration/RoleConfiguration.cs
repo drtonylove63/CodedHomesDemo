@@ -8,8 +8,7 @@ namespace CodedHomes.Data.Configuration
         public RoleConfiguration()
         {
             this.ToTable("webpages_Roles");
-            this.Property(p => p.RoleName)
-                .HasMaxLength(256).IsRequired();
+            this.Property(p => p.RoleName).HasMaxLength(256).IsRequired();
         }
     }
 }

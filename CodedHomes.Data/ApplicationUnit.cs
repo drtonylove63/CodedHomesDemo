@@ -12,22 +12,23 @@ namespace CodedHomes.Data
 
         public IRepository<Home> Homes
         {
-            get
+            get 
             {
                 if (this._homes == null)
                 {
-                    this._homes = new GenericRepository<Home>(this._context);
+                    this._homes = new HomesRepository(this._context);
                 }
                 return this._homes;
             }
         }
+
         public IRepository<User> Users
         {
             get
             {
                 if (this._users == null)
                 {
-                    this._users = new GenericRepository<User>(this._context);
+                    this._users = new UsersRepository(this._context);
                 }
                 return this._users;
             }
